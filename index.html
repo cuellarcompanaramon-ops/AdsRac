@@ -1,0 +1,862 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdsRac — Creative Studio</title>
+
+<style>
+:root {
+    --blue: #315efb;
+    --dark: #172033;
+    --muted: #81899a;
+    --border: #e9edf3;
+    --bg: #f7f8fa;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 245px;
+    background: white;
+    border-right: 1px solid var(--border);
+    padding: 28px 18px;
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--blue);
+    padding: 0 12px;
+    margin-bottom: 45px;
+}
+
+.logo span {
+    color: var(--dark);
+}
+
+.menu-label {
+    font-size: 11px;
+    color: #a0a6b2;
+    font-weight: bold;
+    padding: 0 12px;
+    margin-bottom: 13px;
+    letter-spacing: 1px;
+}
+
+.nav-button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 13px 12px;
+    border-radius: 8px;
+    text-align: left;
+    color: #737c8e;
+    margin-bottom: 5px;
+    font-size: 14px;
+    transition: .2s;
+}
+
+.nav-button:hover, .nav-button.active {
+    background: #eff3ff;
+    color: var(--blue);
+}
+
+.nav-button.active {
+    font-weight: bold;
+}
+
+.sidebar-bottom {
+    margin-top: 40px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+}
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.topbar {
+    height: 75px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.topbar span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.avatar {
+    background: #e9efff;
+    color: var(--blue);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.content {
+    max-width: 1150px;
+    padding: 42px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.heading {
+    margin-bottom: 28px;
+}
+
+.heading h1 {
+    font-size: 29px;
+    margin-bottom: 9px;
+}
+
+.heading p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 23px;
+}
+
+.stat-title {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.stat-note {
+    color: #20a36b;
+    font-size: 12px;
+    margin-top: 9px;
+}
+
+.section-title {
+    font-size: 17px;
+    margin-bottom: 17px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.action-card {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.action-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+}
+
+.action-icon {
+    width: 42px;
+    height: 42px;
+    background: #eff3ff;
+    color: var(--blue);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 18px;
+    font-size: 20px;
+}
+
+.action-card h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.action-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.form-card {
+    max-width: 750px;
+}
+
+label {
+    display: block;
+    margin: 20px 0 9px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    border: 1px solid #e0e5ed;
+    border-radius: 8px;
+    padding: 13px;
+    outline: none;
+    background: white;
+    color: var(--dark);
+}
+
+textarea {
+    min-height: 95px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+}
+
+.primary {
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 24px;
+}
+
+.primary:hover {
+    background: #2449d5;
+}
+
+.secondary {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--dark);
+    padding: 11px 15px;
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+.result {
+    display: none;
+    margin-top: 25px;
+    padding: 22px;
+    border: 1px solid #dfe7ff;
+    border-radius: 10px;
+    background: #f8faff;
+}
+
+.result h3 {
+    color: var(--blue);
+    margin-bottom: 15px;
+}
+
+.result-text {
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid var(--border);
+    padding: 17px 0;
+}
+
+.history-item h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.history-item p {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.small-button {
+    background: #eff3ff;
+    color: var(--blue);
+    border: none;
+    border-radius: 7px;
+    padding: 9px 12px;
+}
+
+.empty {
+    color: var(--muted);
+    padding: 30px 0;
+    font-size: 14px;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.setting-row p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.danger {
+    color: #dc4848;
+    border-color: #f2d4d4;
+}
+
+footer {
+    margin-top: 45px;
+    color: #a0a6b2;
+    font-size: 12px;
+}
+
+@media(max-width: 850px) {
+    .sidebar {
+        width: 190px;
+    }
+    .content {
+        padding: 25px;
+    }
+}
+
+@media(max-width: 650px) {
+    .layout {
+        display: block;
+    }
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+    .logo {
+        margin-bottom: 15px;
+    }
+    .menu-label, .sidebar-bottom {
+        display: none;
+    }
+    .nav-button {
+        width: auto;
+        margin-right: 3px;
+        padding: 10px;
+    }
+    .topbar {
+        padding: 0 20px;
+    }
+    .content {
+        padding: 22px 16px;
+    }
+    .stats {
+        grid-template-columns: 1fr;
+    }
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+    <div class="logo">AdsRac<span>.</span></div>
+
+    <div class="menu-label">WORKSPACE</div>
+
+    <button class="nav-button active" data-page="dashboard">⌂ &nbsp; Dashboard</button>
+    <button class="nav-button" data-page="generator">✧ &nbsp; AI Generator</button>
+    <button class="nav-button" data-page="history">◷ &nbsp; Historial</button>
+    <button class="nav-button" data-page="favorites">☆ &nbsp; Favoritos</button>
+
+    <div class="sidebar-bottom">
+        <div class="menu-label">PREFERENCIAS</div>
+        <button class="nav-button" data-page="settings">⚙ &nbsp; Configuración</button>
+    </div>
+
+</aside>
+
+<div class="main">
+
+    <header class="topbar">
+        <span id="pageLabel">Dashboard / Overview</span>
+        <div class="avatar">A</div>
+    </header>
+
+    <main class="content">
+
+        <section class="page active" id="dashboard">
+
+            <div class="heading">
+                <h1>Bienvenido a AdsRac.</h1>
+                <p>Tu espacio creativo para desarrollar campañas publicitarias.</p>
+            </div>
+
+            <div class="stats">
+
+                <div class="card">
+                    <div class="stat-title">Anuncios creados</div>
+                    <div class="stat-number" id="totalAds">0</div>
+                    <div class="stat-note">Tus creaciones</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-title">Favoritos</div>
+                    <div class="stat-number" id="totalFavorites">0</div>
+                    <div class="stat-note">Ideas guardadas</div>
+                </div>
+
+                <div class="card">
+                    <div class="stat-title">Plataforma</div>
+                    <div class="stat-number" style="font-size:22px;">AdsRac</div>
+                    <div class="stat-note">Creative Studio</div>
+                </div>
+
+            </div>
+
+            <h2 class="section-title">Acciones rápidas</h2>
+
+            <div class="quick-actions">
+
+                <div class="action-card" onclick="showPage('generator')">
+                    <div class="action-icon">✧</div>
+                    <h3>Crear un anuncio</h3>
+                    <p>Prepara una nueva campaña publicitaria con ayuda de IA.</p>
+                </div>
+
+                <div class="action-card" onclick="showPage('history')">
+                    <div class="action-icon">◷</div>
+                    <h3>Ver historial</h3>
+                    <p>Consulta todas tus creaciones anteriores.</p>
+                </div>
+
+            </div>
+
+            <footer>AdsRac Creative Studio · 2026</footer>
+
+        </section>
+
+        <section class="page" id="generator">
+
+            <div class="heading">
+                <h1>AI Generator</h1>
+                <p>Prepara instrucciones personalizadas para crear tus anuncios con IA.</p>
+            </div>
+
+            <div class="card form-card">
+
+                <label for="product">Nombre del producto</label>
+                <input id="product" placeholder="Ej: Zapatillas deportivas">
+
+                <label for="details">Descripción del producto</label>
+                <textarea id="details" placeholder="Describe sus características y ventajas..."></textarea>
+
+                <label for="audience">Público objetivo</label>
+                <select id="audience">
+                    <option>Jóvenes adultos</option>
+                    <option>Familias</option>
+                    <option>Deportistas</option>
+                    <option>Empresas</option>
+                    <option>Público general</option>
+                </select>
+
+                <label for="style">Estilo publicitario</label>
+                <select id="style">
+                    <option>Profesional</option>
+                    <option>Divertido</option>
+                    <option>Elegante</option>
+                    <option>Minimalista</option>
+                    <option>Creativo</option>
+                </select>
+
+                <label for="platform">Plataforma</label>
+                <select id="platform">
+                    <option>Instagram</option>
+                    <option>TikTok</option>
+                    <option>YouTube</option>
+                    <option>Facebook</option>
+                    <option>Publicidad general</option>
+                </select>
+
+                <button class="primary" onclick="generateAd()">Preparar anuncio</button>
+
+                <div class="result" id="result">
+                    <h3>Instrucciones para tu IA</h3>
+                    <div class="result-text" id="prompt"></div>
+                    <button class="primary" onclick="copyPrompt()">Copiar instrucciones</button>
+                    <button class="secondary" onclick="newAd()">Crear otro anuncio</button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="page" id="history">
+
+            <div class="heading">
+                <h1>Historial</h1>
+                <p>Todas tus campañas creadas en AdsRac.</p>
+            </div>
+
+            <div class="card" id="historyList"></div>
+
+        </section>
+
+        <section class="page" id="favorites">
+
+            <div class="heading">
+                <h1>Favoritos</h1>
+                <p>Guarda las ideas que más te gusten.</p>
+            </div>
+
+            <div class="card" id="favoritesList"></div>
+
+        </section>
+
+        <section class="page" id="settings">
+
+            <div class="heading">
+                <h1>Configuración</h1>
+                <p>Administra tus preferencias.</p>
+            </div>
+
+            <div class="card">
+
+                <div class="setting-row">
+                    <div>
+                        <strong>Nombre de la aplicación</strong>
+                        <p>AdsRac Creative Studio</p>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <strong>Versión</strong>
+                        <p>1.0.0 — Primera versión</p>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <strong>Almacenamiento</strong>
+                        <p>Los anuncios se guardan en este navegador.</p>
+                    </div>
+                </div>
+
+                <button class="secondary danger" onclick="clearData()">Borrar todos los datos</button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+</div>
+
+<script>
+
+let ads = JSON.parse(localStorage.getItem("adsrac_ads") || "[]");
+
+let favorites = JSON.parse(localStorage.getItem("adsrac_favorites") || "[]");
+
+const pageNames = {
+    dashboard: "Dashboard / Overview",
+    generator: "Workspace / AI Generator",
+    history: "Workspace / Historial",
+    favorites: "Workspace / Favoritos",
+    settings: "Preferencias / Configuración"
+};
+
+function saveData() {
+    localStorage.setItem("adsrac_ads", JSON.stringify(ads));
+    localStorage.setItem("adsrac_favorites", JSON.stringify(favorites));
+    updateStats();
+}
+
+function showPage(page) {
+    document.querySelectorAll(".page").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    document.getElementById(page).classList.add("active");
+
+    document.querySelectorAll(".nav-button[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+    });
+
+    document.getElementById("pageLabel").textContent = pageNames[page];
+
+    if (page === "history") renderHistory();
+    if (page === "favorites") renderFavorites();
+
+    updateStats();
+}
+
+document.querySelectorAll(".nav-button[data-page]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+function generateAd() {
+
+    const product = document.getElementById("product").value.trim();
+    const details = document.getElementById("details").value.trim();
+    const audience = document.getElementById("audience").value;
+    const style = document.getElementById("style").value;
+    const platform = document.getElementById("platform").value;
+
+    if (!product) {
+        alert("Introduce el nombre del producto.");
+        return;
+    }
+
+    const prompt = `Actúa como un experto profesional en marketing y publicidad.
+
+PRODUCTO: ${product}
+DESCRIPCIÓN: ${details || "Sin descripción adicional"}
+PÚBLICO: ${audience}
+ESTILO: ${style}
+PLATAFORMA: ${platform}
+
+Crea:
+1. Un anuncio publicitario original.
+2. Un eslogan llamativo.
+3. Una descripción para publicar.
+4. Una idea para un vídeo publicitario.
+5. Una llamada a la acción.
+
+Adapta el lenguaje a la plataforma y al público. No inventes características del producto.`;
+
+    const ad = {
+        id: Date.now(),
+        product,
+        audience,
+        style,
+        platform,
+        prompt,
+        favorite: false,
+        date: new Date().toLocaleString("es-ES")
+    };
+
+    ads.unshift(ad);
+    saveData();
+
+    document.getElementById("prompt").textContent = prompt;
+    document.getElementById("result").style.display = "block";
+}
+
+async function copyPrompt() {
+    try {
+        await navigator.clipboard.writeText(
+            document.getElementById("prompt").textContent
+        );
+        alert("¡Instrucciones copiadas!");
+    } catch {
+        alert("No se pudo copiar. Selecciona el texto manualmente.");
+    }
+}
+
+function newAd() {
+    document.getElementById("product").value = "";
+    document.getElementById("details").value = "";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("product").focus();
+}
+
+function updateStats() {
+    document.getElementById("totalAds").textContent = ads.length;
+    document.getElementById("totalFavorites").textContent = favorites.length;
+}
+
+function renderHistory() {
+
+    const container = document.getElementById("historyList");
+
+    if (ads.length === 0) {
+        container.innerHTML = '<p class="empty">Todavía no has creado ningún anuncio.</p>';
+        return;
+    }
+
+    container.replaceChildren();
+
+    ads.forEach(ad => {
+
+        const item = document.createElement("div");
+        item.className = "history-item";
+
+        const info = document.createElement("div");
+        const title = document.createElement("h3");
+        const description = document.createElement("p");
+
+        title.textContent = ad.product;
+        description.textContent = ad.platform + " · " + ad.date;
+
+        info.append(title, description);
+
+        const actions = document.createElement("div");
+
+        const favButton = document.createElement("button");
+        favButton.className = "small-button";
+        favButton.textContent = favorites.some(f => f.id === ad.id) ? "★" : "☆";
+        favButton.onclick = () => toggleFavorite(ad.id);
+
+        const copyButton = document.createElement("button");
+        copyButton.className = "small-button";
+        copyButton.textContent = "Copiar";
+        copyButton.style.marginLeft = "5px";
+        copyButton.onclick = () => copySavedAd(ad.id);
+
+        actions.append(favButton, copyButton);
+        item.append(info, actions);
+        container.append(item);
+    });
+}
+
+function renderFavorites() {
+
+    const container = document.getElementById("favoritesList");
+
+    if (favorites.length === 0) {
+        container.innerHTML = '<p class="empty">Todavía no tienes favoritos.</p>';
+        return;
+    }
+
+    container.replaceChildren();
+
+    favorites.forEach(ad => {
+
+        const item = document.createElement("div");
+        item.className = "history-item";
+
+        const info = document.createElement("div");
+        const title = document.createElement("h3");
+        const description = document.createElement("p");
+
+        title.textContent = ad.product;
+        description.textContent = ad.platform + " · " + ad.date;
+
+        info.append(title, description);
+
+        const remove = document.createElement("button");
+        remove.className = "small-button";
+        remove.textContent = "Quitar ★";
+        remove.onclick = () => toggleFavorite(ad.id);
+
+        item.append(info, remove);
+        container.append(item);
+    });
+}
+
+function toggleFavorite(id) {
+
+    const ad = ads.find(item => item.id === id);
+
+    if (!ad) return;
+
+    const index = favorites.findIndex(item => item.id === id);
+
+    if (index >= 0) {
+        favorites.splice(index, 1);
+    } else {
+        favorites.push(ad);
+    }
+
+    saveData();
+    renderHistory();
+    renderFavorites();
+}
+
+async function copySavedAd(id) {
+
+    const ad = ads.find(item => item.id === id);
+
+    if (!ad) return;
+
+    try {
+        await navigator.clipboard.writeText(ad.prompt);
+        alert("¡Anuncio copiado!");
+    } catch {
+        alert("No se pudo copiar el anuncio.");
+    }
+}
+
+function clearData() {
+
+    if (!confirm("¿Seguro que quieres borrar todos tus anuncios y favoritos?")) return;
+
+    ads = [];
+    favorites = [];
+
+    saveData();
+    renderHistory();
+    renderFavorites();
+
+    alert("Datos borrados.");
+}
+
+updateStats();
+
+</script>
+
+</body>
+</html>
